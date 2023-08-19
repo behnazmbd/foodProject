@@ -1,12 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Food } from 'src/app/shared/models/food';
+import { Tag } from 'src/app/shared/models/tag';
 @Injectable({
   providedIn: 'root'
 })
 export class FoodService {
 
-  constructor() { }
+  constructor() {}
 
+  getFoodById(id : Number): Food{
+  return this.getAll().find(food => food.id == id)!;
+  }
+  getAllFoodsBySearchTerm(searchTerm: string): Food[]{
+    return this.getAll().filter(food => 
+   food.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  }
+getAllTags(): Tag[]{
+  return [
+  {name: 'All', count: 6},
+  {name: 'FastFood', count: 4},
+  {name: 'Pizza', count: 1},
+  {name: 'SlowFood', count: 2},
+  {name: 'Hamburger', count: 2},
+  {name: 'Fry', count: 1},
+  ];
+}
+getAllFoodsByTag(tag:string): Food[]{
+  return tag == "All" ? this.getAll() : this.getAll().filter(food => food.tags?.includes(tag));
+}
   getAll(): Food[] {
     return [
     {
@@ -18,7 +39,7 @@ export class FoodService {
       origins:['Italia', 'us'],
       stars: 5.5,
       imageUrl: '/assets/images/food-1.jpg',
-      tags:['Dessert','Makaron']
+      tags:['Dessert','SlowFood']
     },
     {
       id:2,
@@ -29,7 +50,7 @@ export class FoodService {
       origins:['France', 'us'],
       stars: 7.5,
       imageUrl: '/assets/images/food-2.jpg',
-      tags:['FastFood','Hotdog']
+      tags:['FastFood','Fry']
     },
     {
       id:3,
@@ -40,7 +61,7 @@ export class FoodService {
       origins:['iaran', 'us'],
       stars: 2.5,
       imageUrl: '/assets/images/food-6.jpg',
-      tags:['FastFood','Egg']
+      tags:['Breakfast','SlowFood']
     },
     {
       id:4,
@@ -62,7 +83,7 @@ export class FoodService {
       origins:['Belguim', 'us'],
       stars: 3.5,
       imageUrl: '/assets/images/food-6.jpg',
-      tags:['FastFood','Potato']
+      tags:['FastFood','Pizza']
     },
     {
       id:6,
@@ -73,7 +94,7 @@ export class FoodService {
       origins:['germany', 'us'],
       stars: 4.5,
       imageUrl: '/assets/images/food-6.jpg',
-      tags:['FastFood','Cheeseburger']
+      tags:['FastFood','Hamburger']
     }
     ]
     
